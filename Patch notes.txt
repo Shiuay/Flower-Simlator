@@ -1,0 +1,34 @@
+Prochaine maj :
+
+- Le temps :
+
+	- Supprimer l'affichage de l'argent en console
+	- Rajouter une image pour nuageux 1 ( 1 nuage sur un soleil ), nuageux 2 ( 2 nuages sur un soleil ) et nuageux 3 ( 3 nuages sur un soleil )
+	- Garder l'image de nuage uniquement pour nuageux 4
+	- Obscurcir le nuage pour nuageux 5
+	- Garder l'image de soleil pur pour dégagé
+	- Supprimer l'ancienne version de la pluie et rajouter la nouvelle qui actualise l'hydratation en fonction de la météo
+	- Ajuster certaines variables concernant la météo et les rendre modifiables dans le fichier "paramètres"
+
+- L'exposition :
+
+	- Rajouter le calcul de l'exposition soleil, pourcentage de l'exposition saison en fonction de la météo
+	- Mettre en relation la croissance de la plante et l'exposition soleil
+	- Rajouter la température en fonction de l'exposition saison
+
+- Les villes :
+
+	- Rajouter la classe Ville avec pour paramètres nom, exposition_max/min, temp_norm_max/min, ensoleillement_annuel, frequence_precipitations et amplitude_precipitations ( plus a venir )
+ 
+- Interface :
+
+	- Remettre les couleurs des fleurs et des pots
+	- Changer les boutons, travailler la lisibilité, visibilité et ergonomie de l'interface
+	- Mettre une animation durant la croissance de la fleur, quand elle manque d'eau etc
+
+- Shop :
+
+	- Implémenter le shop
+	- Y rajouter la radio, passant la musique de la radio de portal quand on la consulte et prédisant la météo de toute la semaine avec 10% de chance de se tromper a chaque jour
+	- Y deplacer l'achat des fleurs
+	- Y rajouter l'achat de pots ( integrer la fonction dimension_canvas )
