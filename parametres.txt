@@ -1,0 +1,2 @@
+VitesseTic=0.1
+VitesseJour=10
