@@ -209,8 +209,32 @@ def degage(meteo):
     else:
         return False
 
-def nuageux(meteo):
-    if meteo[0].startswith('Nuageux'):
+def nuageux1(meteo):
+    if meteo[0] == 'Nuageux1':
+        return True
+    else:
+        return False
+
+def nuageux2(meteo):
+    if meteo[0] == 'Nuageux2':
+        return True
+    else:
+        return False
+
+def nuageux3(meteo):
+    if meteo[0] == 'Nuageux3':
+        return True
+    else:
+        return False
+
+def nuageux4(meteo):
+    if meteo[0] == 'Nuageux4':
+        return True
+    else:
+        return False
+
+def nuageux5(meteo):
+    if meteo[0] == 'Nuageux5':
         return True
     else:
         return False
