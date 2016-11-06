@@ -115,24 +115,19 @@ def charger_partie():
 
     def split_plante(fichier):
         for i in range(len(fichier)):
-            fichier[i-1] = fichier[i-1][:-8]
+            fichier[i] = fichier[i][:-8]
         return fichier
 
     def setargs():
         nom = os.listdir('Save')
-        for i in range(len(nom)):
-            print(i)
-            if nom[i] != nom[i].endswith(".plantes"):
-                del nom[i]
-        nom = split_plante(nom)
-        return nom
+        nom = [nb for nb in nom if nb.endswith(".plantes")]
+        return split_plante(nom)
 
     def get():
         global alerte
         args = setargs()
         name = liste.curselection()
         name = args[name[0]]
-        print(name)
 
     args = setargs()
 
