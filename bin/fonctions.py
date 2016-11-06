@@ -97,9 +97,61 @@ def sauvegarder_partie(*args):
     main()
 
 def charger_partie():
-    """"""
-    pass
+    
+    def set():
+        global alerte, msg
+        alerte = Tk()
+        alerte.resizable(width=False, height=False)
+        msg = Message(alerte, width=400)
+        msg.pack(side=TOP, padx=5, pady=5)
 
+    def delete():
+        global alerte
+        alerte.destroy()
+
+    def reset():
+        delete()
+        set()
+
+    def split_plante(fichier):
+        for i in range(len(fichier)):
+            fichier[i-1] = fichier[i-1][:-8]
+        return fichier
+
+    def setargs():
+        nom = os.listdir('Save')
+        for i in range(len(nom)):
+            print(i)
+            if nom[i] != nom[i].endswith(".plantes"):
+                del nom[i]
+        nom = split_plante(nom)
+        return nom
+
+    def get():
+        global alerte
+        args = setargs()
+        name = liste.curselection()
+        name = args[name[0]]
+        print(name)
+
+    args = setargs()
+
+    set()
+
+    if args != []:
+        liste = Listbox(alerte, exportselection=0, selectmode='single')
+        liste.pack(padx=5, pady=5)
+
+        for i in args:
+            liste.insert('end', i)
+
+        button = Button(alerte, text="Ok", width=7, command=get)
+        button.pack(side=TOP, padx=5, pady=10)
+
+    else:
+        msg.config(text="Désoler, il n'y a pas de sauvegarde dans votre fichier \"Save\".")
+        button = Button(alerte, text="Ok", width=7, command=delete)
+        button.pack(side=TOP, padx=5, pady=10)
 
 def charger_parametres():
     """Extrait les paramètres d'un fichier texte dedié"""
