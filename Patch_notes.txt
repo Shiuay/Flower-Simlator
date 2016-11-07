@@ -7,9 +7,11 @@ Prochaine maj :
 	- Suppression de l'ancienne version de la pluie et rajout de la nouvelle qui actualise l'hydratation en fonction de la météo
 	- Certaines variables concernant la météo ont été ajuster et ont été rendu modifiables dans le fichier "paramètres"
 
-- Save :
+- Save : (1/2)
 
-	- Rajout d'une sauvegarde fonctionnel. (1/2)
+	- Rajout d'une sauvegarde fonctionnel.
+	- Rajout d'un chargement de sauvegardes fonctionnels.
+	- rajout de la fermeture auto apres la sauvegarde.
 
 - L'exposition : (0/3)
 
