@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
-import os, pickle
+import os, pickle, tkinter.messagebox
+
 from random  import *
 from math    import *
 from tkinter import *
 
-continuer = True
+continuer    = [True, False]
+Save_plantes = []
 
 def inclinaison_soleil(latitude, jour):
 
@@ -22,96 +24,75 @@ def alea(x):
     else:
         return False
 
+def pause_resume():
+    global continuer
+    if continuer[0] == True:
+        continuer[0] = False
+    else:
+        continuer[0] = True
+
 def continuer_test():
     global continuer
-    return continuer
+    return continuer[0]
 
 def sauvegarder_partie(*args):
 
     global continuer
 
-    def save():
-        global alert, msg, name, continuer
-        path = "Save/" + name + ".plantes"
-        with open(path, "wb") as Save:
+    def save(alert, name):
+        global continuer
+        alert.destroy()
+        with open("Save/" + name + ".plantes", "wb") as Save:
             mon_pickler = pickle.Pickler(Save)
             for i in args:
                 mon_pickler.dump(i)
-        alert.title("Completed")
-        msg.config(text="Partie sauvegarder !")
-        button = Button(alert, width=7, text="Ok", command=delete)
-        button.pack(side=TOP, padx=5, pady=5)
-        continuer = True
+        tkinter.messagebox.showinfo('Completed !', 'Partie sauvegarder avec succes !')
+        continuer[0] = True
 
-    def set():
-        global alert, msg
-        alert = Tk()
-        alert.resizable(width=False, height=False)
-        msg = Message(alert, width=400)
-        msg.pack(side=TOP, padx=5, pady=5)
-
-    def delete():
-        global alert
-        alert.destroy()
-
-    def reset():
-        delete()
-        set()
-
-    def get():
-        global alert, texte, name
-        def testo():
-            reset()
-            save()
-
-        def testn():
-            reset()
-            main()
-
+    def get(texte, alert):
         name = texte.get()
-        if os.path.exists('Save\\' + name + '.plantes'):
-            reset()
-            alert.title("Confirmer l'enregistrement")
-            msg.config(text="Cette sauvegarde existe déja.\nVoulez vous le remplacer ?")
-            button1 = Button(alert, width=7, text="Oui", command=testo)
-            button2 = Button(alert, width=7, text="Non", command=testn)
-            button1.pack(side=LEFT, padx=5, pady=5)
-            button2.pack(side=RIGHT, padx=5, pady=5)
-        else:
-            if name != "":
-                reset()
-                save()
+        if name != "":
+            if os.path.exists('Save\\' + name + '.plantes'):
+                if tkinter.messagebox.askyesno("Confirmer l'enregisterment", "Ce fichier existe déja. voulez vous le remplacer ?"):
+                    save(alert, name)
+            else:
+                save(alert, name)
+
+    continuer[0] = False
+    name = "Sauvegarde"
 
     def main():
-        global alert, button, msg, texte
+        alert = Tk()
         alert.title("Sauvegarde")
-        msg.config(text="Choisisez le nom de votre sauvegarde :")
+        msg = Message(alert, width=400, text="Choisisez le nom de votre sauvegarde :")
+        msg.pack(side=TOP, padx=5, pady=5)
         texte = Entry(alert, width=40)
-        button = Button(alert, width=7, text="Ok", command=get)
         texte.pack(side=TOP, padx=20, pady=5)
+        button = Button(alert, width=7, text="Ok", command=lambda:get(texte, alert))
         button.pack(side=TOP, padx=5, pady=10)
 
-    continuer = False
-    name = "Sauvegarde"
-    set()
     main()
 
+def charger_save():
+    global Save_plantes, continuer
+    if continuer[1] == True:
+        continuer[1] = False
+        return Save_plantes
+
 def charger_partie():
-    
-    def set():
-        global alerte, msg
-        alerte = Tk()
-        alerte.resizable(width=False, height=False)
-        msg = Message(alerte, width=400)
-        msg.pack(side=TOP, padx=5, pady=5)
 
-    def delete():
-        global alerte
-        alerte.destroy()
+    global continuer
 
-    def reset():
-        delete()
-        set()
+    def charger(name):
+        global Save_plantes, continuer
+        with open("Save/" + name + ".plantes", "rb") as Save:
+            pickler = pickle.Unpickler(Save)
+            try:
+                while True:
+                    Save_plantes.append(pickler.load())
+            except EOFError:
+                continuer[1] = True
+                #tkinter.messagebox.showinfo('Charger !', 'Votre partie a été bien charger !')
 
     def split_plante(fichier):
         for i in range(len(fichier)):
@@ -123,30 +104,33 @@ def charger_partie():
         nom = [nb for nb in nom if nb.endswith(".plantes")]
         return split_plante(nom)
 
-    def get():
-        global alerte
+    def get(alerte):
         args = setargs()
         name = liste.curselection()
         name = args[name[0]]
+        alerte.destroy()
+        charger(name)
 
+    continuer[0] = False
     args = setargs()
 
-    set()
-
     if args != []:
+        alerte = Tk()
+        alerte.resizable(width=False, height=False)
+        msg = Message(alerte, width=400)
+        msg.pack(side=TOP, padx=5, pady=5)
+
         liste = Listbox(alerte, exportselection=0, selectmode='single')
         liste.pack(padx=5, pady=5)
 
         for i in args:
             liste.insert('end', i)
 
-        button = Button(alerte, text="Ok", width=7, command=get)
+        button = Button(alerte, text="Ok", width=7, command=lambda:get(alerte))
         button.pack(side=TOP, padx=5, pady=10)
 
     else:
-        msg.config(text="Désoler, il n'y a pas de sauvegarde dans votre fichier \"Save\".")
-        button = Button(alerte, text="Ok", width=7, command=delete)
-        button.pack(side=TOP, padx=5, pady=10)
+        tkinter.messagebox.showerror("Erreur !", "Désoler, il n'y a pas de sauvegarde valide dans votre fichier \"Save\".")
 
 def charger_parametres():
     """Extrait les paramètres d'un fichier texte dedié"""

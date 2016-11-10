@@ -9,12 +9,23 @@ def aff(date, mois, c):
 
 	t = 10
 
+	# remise a zero du carré rouge de selection de date
+
+	for i in range(52, 93):
+		c.itemconfig(i, width=0)
+
 	for i in range(42):
-		c.itemconfig(t, text="0", fill='black')
+		c.itemconfig(t, text="", fill='black')
 		t += 1
+
+	c.itemconfig(date[4], width=2)
+
+	# Affichage du mois et de l'année
 
 	c.itemconfig("année", text=date[2])
 	c.itemconfig("mois", text=mois[date[1] - 1][0])
+
+	# Création du calendrier
 
 	t = date[6] + 10
 	for i in range(mois[date[1] - 1][1]):
@@ -34,7 +45,6 @@ def aff(date, mois, c):
 		tgris = mois[date[1] - 2][1]
 	except:
 		tgris = mois[11][1]
-		raise
 
 	while 11 != tgris and t != 9:
 		c.itemconfig(t, text=tgris, fill='gray')

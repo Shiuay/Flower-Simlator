@@ -15,7 +15,7 @@ import time
 
 parametres = charger_parametres()
 
-stop      = True
+stop      = [True, False]
 continuer = continuer_test()
 argent    = 5
 date      = [30, 8, 2016, "Mardi", 81, 0, 1]  # [Jour, Mois, Années, Jour, rectangle afficheur calendrier, ticks, jour]
@@ -26,8 +26,21 @@ for i in range(12):
     fleurs.append(None)
 
 def save():
+    global date, Meteo, argent, fleur
+    sauvegarder_partie(date, Meteo, argent, fleur)
+
+def load():
     global date, Meteo, argent
-    sauvegarder_partie(date, Meteo, argent)
+    Save = charger_save()
+    if Save is None:
+        pass
+    else:
+        date   = Save[0]
+        Meteo  = Save[1]
+        argent = Save[2]
+        label_gold.config(text="${}".format(argent))
+        pause_resume()
+
 
 def charger():
     charger_partie()
@@ -82,16 +95,20 @@ def vendre_fleur():
 
 def quit():
     global stop
-    stop = False
+    stop[0] = False
+    time.sleep(1)
     fenetre.quit()
 
 def main():
     
     global date, LMois, Meteo, continuer, stop
 
-    while stop:
+    while stop[0]:
 
         continuer = continuer_test()
+        load()
+        if continuer == True:
+            aff(date, LMois, Calendrier)
 
         while continuer:
 
