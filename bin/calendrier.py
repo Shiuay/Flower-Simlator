@@ -51,14 +51,13 @@ def aff(date, mois, c):
 		t -= 1
 		tgris -= 1
 
-def adv(date):
-	date[0]  = 1
-	date[1] += 1
-	return date
-
-
 def jour(date, mois, jour, c):
 
+	def adv(date):
+		date[0]  = 1
+		date[1] += 1
+		return date
+		
 	# affichage des jour
 
 	ad = 0

@@ -7,7 +7,7 @@ from math    import *
 from tkinter import *
 
 continuer    = [True, False]
-Save_plantes = []
+save_plantes = []
 
 def inclinaison_soleil(latitude, jour):
 
@@ -35,31 +35,29 @@ def continuer_test():
     global continuer
     return continuer[0]
 
-def sauvegarder_partie(*args):
+def sauvegarder_partie(**args):
 
     global continuer
 
     def save(alert, name):
         global continuer
         alert.destroy()
-        with open("Save/" + name + ".plantes", "wb") as Save:
-            mon_pickler = pickle.Pickler(Save)
-            for i in args:
-                mon_pickler.dump(i)
+        with open("save/" + name + ".plantes", "wb") as save:
+            mon_pickler = pickle.Pickler(save)
+            mon_pickler.dump(args)
         tkinter.messagebox.showinfo('Completed !', 'Partie sauvegarder avec succes !')
         continuer[0] = True
 
     def get(texte, alert):
         name = texte.get()
         if name != "":
-            if os.path.exists('Save\\' + name + '.plantes'):
+            if os.path.exists('save\\' + name + '.plantes'):
                 if tkinter.messagebox.askyesno("Confirmer l'enregisterment", "Ce fichier existe déja. voulez vous le remplacer ?"):
                     save(alert, name)
             else:
                 save(alert, name)
 
     continuer[0] = False
-    name = "Sauvegarde"
 
     def main():
         alert = Tk()
@@ -74,25 +72,21 @@ def sauvegarder_partie(*args):
     main()
 
 def charger_save():
-    global Save_plantes, continuer
+    global save_plantes, continuer
     if continuer[1] == True:
         continuer[1] = False
-        return Save_plantes
+        return save_plantes[0]
 
 def charger_partie():
 
     global continuer
 
     def charger(name):
-        global Save_plantes, continuer
-        with open("Save/" + name + ".plantes", "rb") as Save:
-            pickler = pickle.Unpickler(Save)
-            try:
-                while True:
-                    Save_plantes.append(pickler.load())
-            except EOFError:
-                continuer[1] = True
-                #tkinter.messagebox.showinfo('Charger !', 'Votre partie a été bien charger !')
+        global save_plantes, continuer
+        with open("save/" + name + ".plantes", "rb") as save:
+            pickler = pickle.Unpickler(save)
+            save_plantes.append(pickler.load())
+            continuer[1] = True
 
     def split_plante(fichier):
         for i in range(len(fichier)):
@@ -130,7 +124,7 @@ def charger_partie():
         button.pack(side=TOP, padx=5, pady=10)
 
     else:
-        tkinter.messagebox.showerror("Erreur !", "Désoler, il n'y a pas de sauvegarde valide dans votre fichier \"Save\".")
+        tkinter.messagebox.showerror("Erreur !", "Désoler, il n'y a pas de sauvegarde valide dans votre fichier \"save\".")
 
 def charger_parametres():
     """Extrait les paramètres d'un fichier texte dedié"""

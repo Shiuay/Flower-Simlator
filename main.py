@@ -27,23 +27,29 @@ for i in range(12):
 
 def save():
     global date, Meteo, argent, fleur
-    sauvegarder_partie(date, Meteo, argent, fleur)
+    sauvegarder_partie(date=date, meteo=Meteo, fric=argent, fleur=fleurs)
 
 def load():
-    global date, Meteo, argent
-    Save = charger_save()
-    if Save is None:
+    global date, Meteo, argent, fleurs
+    save = charger_save()
+    if save is None:
         pass
     else:
-        date   = Save[0]
-        Meteo  = Save[1]
-        argent = Save[2]
+        date   = save["date"]
+        Meteo  = save["meteo"]
+        argent = save["fric"]
+        fleurs = save["fleur"]
+
+        b = 0
+        for i in fleurs:
+            if i is not None:
+                boutons_fleur[b].config(image=photo_fleur)
+            b += 1
+        del b
+
         label_gold.config(text="${}".format(argent))
+        tkinter.messagebox.showinfo('Charger !', 'Votre partie a été bien charger !')
         pause_resume()
-
-
-def charger():
-    charger_partie()
 
 def arroser_fleur():
 
@@ -174,7 +180,7 @@ menubar = Menu(fenetre)
 
 menu1 = Menu(menubar, tearoff=0)
 menubar.add_cascade(label="Fichier", menu=menu1)
-menu1.add_command(label="Charger", command=charger)
+menu1.add_command(label="Charger", command=charger_partie)
 menu1.add_command(label="Sauvegarder", command=save)
 menu1.add_separator()
 menu1.add_command(label="Quitter", command=quit)
