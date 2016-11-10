@@ -6,29 +6,26 @@ Prochaine maj :
 	- Rajouter une image pour nuageux 1 ( 1 nuage sur un soleil ), nuageux 2 ( 2 nuages sur un soleil ) et nuageux 3 ( 3 nuages sur un soleil )
 	- Garder l'image de nuage uniquement pour nuageux 4
 	- Obscurcir le nuage pour nuageux 5
-	- Garder l'image de soleil pur pour dÈgagÈ
-	- Supprimer l'ancienne version de la pluie et rajouter la nouvelle qui actualise l'hydratation en fonction de la mÈtÈo
-	- Ajuster certaines variables concernant la mÈtÈo et les rendre modifiables dans le fichier "paramËtres"
+	- Garder l'image de soleil pur pour d√©gag√©
+	- Supprimer l'ancienne version de la pluie et rajouter la nouvelle qui actualise l'hydratation en fonction de la m√©t√©o
+	- Ajuster certaines variables concernant la m√©t√©o et les rendre modifiables dans le fichier "param√®tres"
+	- Rajouter la classe M√©t√©o avec pour des param√®tres dependant de exposition_max/min, temp_norm_max/min, ensoleillement_annuel, frequence_precipitations et amplitude_precipitations et du nom de ville ( plus a venir ), et modifiant la mani√®re dont elle √©volue.
 
 - L'exposition :
 
-	- Rajouter le calcul de l'exposition soleil, pourcentage de l'exposition saison en fonction de la mÈtÈo
+	- Rajouter le calcul de l'exposition soleil, pourcentage de l'exposition saison en fonction de la m√©t√©o
 	- Mettre en relation la croissance de la plante et l'exposition soleil
-	- Rajouter la tempÈrature en fonction de l'exposition saison
-
-- Les villes :
-
-	- Rajouter la classe Ville avec pour paramËtres nom, exposition_max/min, temp_norm_max/min, ensoleillement_annuel, frequence_precipitations et amplitude_precipitations ( plus a venir )
+	- Rajouter la temp√©rature en fonction de l'exposition saison
  
 - Interface :
 
 	- Remettre les couleurs des fleurs et des pots
-	- Changer les boutons, travailler la lisibilitÈ, visibilitÈ et ergonomie de l'interface
+	- Changer les boutons, travailler la lisibilit√©, visibilit√© et ergonomie de l'interface
 	- Mettre une animation durant la croissance de la fleur, quand elle manque d'eau etc
 
 - Shop :
 
-	- ImplÈmenter le shop
-	- Y rajouter la radio, passant la musique de la radio de portal quand on la consulte et prÈdisant la mÈtÈo de toute la semaine avec 10% de chance de se tromper a chaque jour
+	- Impl√©menter le shop
+	- Y rajouter la radio, passant la musique de la radio de portal quand on la consulte et pr√©disant la m√©t√©o de toute la semaine avec 10% de chance de se tromper a chaque jour
 	- Y deplacer l'achat des fleurs
 	- Y rajouter l'achat de pots ( integrer la fonction dimension_canvas )
