@@ -17,7 +17,7 @@ import time
 
 parametres = charger_parametres()
 
-stop = [True, False]
+stop = True
 continuer = continuer_test(0)
 argent = 5
 # [Jour, Mois, Années, Jour, rectangle afficheur calendrier, ticks, jour]
@@ -107,7 +107,7 @@ def vendre_fleur():
 
 def quit():
     global stop
-    stop[0] = False
+    stop = False
     time.sleep(1)
     fenetre.quit()
 
@@ -116,11 +116,11 @@ def main():
 
     global date, Meteo, continuer, stop
 
-    while stop[0]:
+    while stop:
 
         continuer = continuer_test(0)
         load()
-        if continuer == True:
+        if continuer:
             aff(date, Calendrier)
 
         while continuer:
@@ -343,3 +343,4 @@ aff(date, Calendrier)
 
 programme.start()
 fenetre.mainloop()
+fenetre.destroy()
