@@ -4,9 +4,9 @@ import os
 import pickle
 import tkinter.messagebox
 
+from tkinter import *
 from random import *
 from math import *
-from tkinter import *
 
 continuer = [True, False]
 save_plantes = []
@@ -39,6 +39,25 @@ def pause_resume():
 def continuer_test():
     global continuer
     return continuer[0]
+
+
+def charger_parametres():
+    """Extrait les paramètres d'un fichier texte dedié"""
+    with open('parametres.txt', 'r') as fichier:
+        contenu = fichier.read()
+        lignes = contenu.split()
+        parametres = dict()
+        for ligne in lignes:
+            parametre = ligne.split("=")
+            parametres[parametre[0]] = parametre[1]
+        return parametres
+
+
+def charger_save():
+    global save_plantes, continuer
+    if continuer[1] == True:
+        continuer[1] = False
+        return save_plantes[0]
 
 
 def sauvegarder_partie(**args):
@@ -81,13 +100,6 @@ def sauvegarder_partie(**args):
     main()
 
 
-def charger_save():
-    global save_plantes, continuer
-    if continuer[1] == True:
-        continuer[1] = False
-        return save_plantes[0]
-
-
 def charger_partie():
 
     global continuer
@@ -99,15 +111,12 @@ def charger_partie():
             save_plantes.append(pickler.load())
             continuer[1] = True
 
-    def split_plante(fichier):
-        for i in range(len(fichier)):
-            fichier[i] = fichier[i][:-8]
-        return fichier
-
     def setargs():
         nom = os.listdir('Save')
         nom = [nb for nb in nom if nb.endswith(".plantes")]
-        return split_plante(nom)
+        for i in range(len(nom)):
+            nom[i] = nom[i][:-8]
+        return nom
 
     def get(alerte):
         args = setargs()
@@ -138,15 +147,3 @@ def charger_partie():
     else:
         tkinter.messagebox.showerror(
             "Erreur !", "Désoler, il n'y a pas de sauvegarde valide dans votre fichier \"save\".")
-
-
-def charger_parametres():
-    """Extrait les paramètres d'un fichier texte dedié"""
-    with open('parametres.txt', 'r') as fichier:
-        contenu = fichier.read()
-        lignes = contenu.split()
-        parametres = dict()
-        for ligne in lignes:
-            parametre = ligne.split("=")
-            parametres[parametre[0]] = parametre[1]
-        return parametres

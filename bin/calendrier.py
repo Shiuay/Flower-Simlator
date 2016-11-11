@@ -4,7 +4,10 @@
 # Calendrier.itemconfig("52", width=1) # pour les cadres. tags : [52, 93]
 
 
-def aff(date, mois, c):
+def aff(date, c):
+
+    mois = (("Janvier", 31), ("Février", 28), ("Mars", 31), ("Avril", 30), ("Mai", 31), ("Juin", 30),
+            ("Juillet", 31), ("Août", 31), ("Septembre", 30), ("Octobre", 31), ("Novembre", 30), ("Décembre", 31))
 
     # [Jour, Mois, Années, Jour, rectangle afficheur calendrier, ticks, jour]
 
@@ -53,12 +56,18 @@ def aff(date, mois, c):
         tgris -= 1
 
 
-def jour(date, mois, jour, c):
+def jour(date, c):
 
     def adv(date):
         date[0] = 1
         date[1] += 1
         return date
+
+    jour = ("Lundi", "Mardi", "Mercredi", "Jeudi",
+            "Vendredi", "Samedi", "Dimanche")
+
+    mois = (("Janvier", 31), ("Février", 28), ("Mars", 31), ("Avril", 30), ("Mai", 31), ("Juin", 30),
+            ("Juillet", 31), ("Août", 31), ("Septembre", 30), ("Octobre", 31), ("Novembre", 30), ("Décembre", 31))
 
     # affichage des jour
 

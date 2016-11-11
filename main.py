@@ -2,10 +2,11 @@
 
 # Import ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from bin.calendrier import *
-from bin.fonctions import *
+from bin.Calendrier import *
+from bin.Fonctions import *
 from bin.Fleur import *
 from bin.Meteo import *
+
 from threading import *
 from tkinter import *
 from math import *
@@ -25,11 +26,6 @@ Meteo = ["Dégagé", 1]
 fleurs = list()
 for i in range(12):
     fleurs.append(None)
-
-
-def save():
-    global date, Meteo, argent, fleur
-    sauvegarder_partie(date=date, meteo=Meteo, fric=argent, fleur=fleurs)
 
 
 def load():
@@ -117,14 +113,14 @@ def quit():
 
 def main():
 
-    global date, LMois, Meteo, continuer, stop
+    global date, Meteo, continuer, stop
 
     while stop[0]:
 
         continuer = continuer_test()
         load()
         if continuer == True:
-            aff(date, LMois, Calendrier)
+            aff(date, Calendrier)
 
         while continuer:
 
@@ -136,7 +132,7 @@ def main():
 
             date[5] += 1
             if date[5] == int(parametres["VitesseJour"]):
-                date = jour(date, LMois, LJours, Calendrier)
+                date = jour(date, Calendrier)
                 Meteo = test_temps(Meteo)
 
                 if degage(Meteo):
@@ -155,7 +151,7 @@ def main():
                     label_meteo.config(image=photo_pluie)
 
                 if date[0] == 1:
-                    aff(date, LMois, Calendrier)
+                    aff(date, Calendrier)
                 date[5] = 0
 
             if choix_fleur.get() == "":
@@ -196,7 +192,8 @@ menubar = Menu(fenetre)
 menu1 = Menu(menubar, tearoff=0)
 menubar.add_cascade(label="Fichier", menu=menu1)
 menu1.add_command(label="Charger", command=charger_partie)
-menu1.add_command(label="Sauvegarder", command=save)
+menu1.add_command(label="Sauvegarder", command=lambda: sauvegarder_partie(
+    date=date, meteo=Meteo, fric=argent, fleur=fleurs))
 menu1.add_separator()
 menu1.add_command(label="Quitter", command=quit)
 
@@ -285,11 +282,6 @@ bouton_arroser.pack(side=BOTTOM, padx=5, pady=5)
 
 # Calendrier ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-LJours = ("Lundi", "Mardi", "Mercredi", "Jeudi",
-          "Vendredi", "Samedi", "Dimanche")
-LMois = (("Janvier", 31), ("Février", 28), ("Mars", 31), ("Avril", 30), ("Mai", 31), ("Juin", 30),
-         ("Juillet", 31), ("Août", 31), ("Septembre", 30), ("Octobre", 31), ("Novembre", 30), ("Décembre", 31))
-
 Calendrier = Canvas(fenetre, width=244, height=284, bg='#F0F0F0')
 Calendrier.pack(side=BOTTOM, padx=5, pady=5)
 
@@ -298,12 +290,16 @@ Calendrier.create_text(122, 50, tags="mois")
 
 # Affichage des jours (lundi mardi mercredi...) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+journee = ("Lundi", "Mardi", "Mercredi", "Jeudi",
+           "Vendredi", "Samedi", "Dimanche")
 a = 0
 x = 20
 for i in range(7):
-    Calendrier.create_text(x, 80, text=LJours[a][0])
+    Calendrier.create_text(x, 80, text=journee[a][0])
     a += 1
     x += 35
+
+del journee
 
 # Affichage du numero du jour (le trois octobre: le 3.) ~~~~~~~~~~~~~~~~~~
 
@@ -337,7 +333,7 @@ for i in range(6):
 
 Calendrier.itemconfig(date[4], width=2)
 
-aff(date, LMois, Calendrier)
+aff(date, Calendrier)
 
 # Calendrier.itemconfig("10", text="42", fill='black') # pour les texte. tags : [10, 51]
 # Calendrier.itemconfig("52", width=1) # pour les cadres. tags : [52, 93]
