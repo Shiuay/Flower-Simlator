@@ -48,4 +48,4 @@
 		- Y deplacer l'achat des fleurs
 		- Y rajouter l'achat de pots ( integrer la fonction dimension_canvas )
 
-	- application du pop20 pour dans les prochain patch
+	- application du pep20 pour dans les prochain patch
