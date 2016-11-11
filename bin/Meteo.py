@@ -203,11 +203,13 @@ def test_pluvieux5(duree):
     else:
         return ["Pluvieux4", duree + 1]
 
+
 def degage(meteo):
     if meteo[0] == "Dégagé":
         return True
     else:
         return False
+
 
 def nuageux1(meteo):
     if meteo[0] == 'Nuageux1':
@@ -215,11 +217,13 @@ def nuageux1(meteo):
     else:
         return False
 
+
 def nuageux2(meteo):
     if meteo[0] == 'Nuageux2':
         return True
     else:
         return False
+
 
 def nuageux3(meteo):
     if meteo[0] == 'Nuageux3':
@@ -227,11 +231,13 @@ def nuageux3(meteo):
     else:
         return False
 
+
 def nuageux4(meteo):
     if meteo[0] == 'Nuageux4':
         return True
     else:
         return False
+
 
 def nuageux5(meteo):
     if meteo[0] == 'Nuageux5':
@@ -239,58 +245,60 @@ def nuageux5(meteo):
     else:
         return False
 
+
 def pluvieux(meteo):
     if meteo[0].startswith('Pluvieux'):
         return True
     else:
         return False
 
+
 def test_temps(meteo):
 
     changement = True
 
     if meteo[0] == "Dégagé" and changement:
-        meteo = test_degage(meteo[1]+1)
+        meteo = test_degage(meteo[1] + 1)
         changement = False
 
     if meteo[0] == "Nuageux1" and changement:
-        meteo = test_nuageux1(meteo[1]+1)
+        meteo = test_nuageux1(meteo[1] + 1)
         changement = False
 
     if meteo[0] == "Nuageux2" and changement:
-        meteo = test_nuageux2(meteo[1]+1)
+        meteo = test_nuageux2(meteo[1] + 1)
         changement = False
 
     if meteo[0] == "Nuageux3" and changement:
-        meteo = test_nuageux3(meteo[1]+1)
+        meteo = test_nuageux3(meteo[1] + 1)
         changement = False
 
     if meteo[0] == "Nuageux4" and changement:
-        meteo = test_nuageux4(meteo[1]+1)
+        meteo = test_nuageux4(meteo[1] + 1)
         changement = False
 
     if meteo[0] == "Nuageux5" and changement:
-        meteo = test_nuageux5(meteo[1]+1)
+        meteo = test_nuageux5(meteo[1] + 1)
         changement = False
 
     if meteo[0] == "Pluvieux1" and changement:
-        meteo = test_pluvieux1(meteo[1]+1)
+        meteo = test_pluvieux1(meteo[1] + 1)
         changement = False
 
     if meteo[0] == "Pluvieux2" and changement:
-        meteo = test_pluvieux2(meteo[1]+1)
+        meteo = test_pluvieux2(meteo[1] + 1)
         changement = False
 
     if meteo[0] == "Pluvieux3" and changement:
-        meteo = test_pluvieux3(meteo[1]+1)
+        meteo = test_pluvieux3(meteo[1] + 1)
         changement = False
 
     if meteo[0] == "Pluvieux4" and changement:
-        meteo = test_pluvieux4(meteo[1]+1)
+        meteo = test_pluvieux4(meteo[1] + 1)
         changement = False
 
     if meteo[0] == "Pluvieux5" and changement:
-        meteo = test_pluvieux5(meteo[1]+1)
+        meteo = test_pluvieux5(meteo[1] + 1)
         changement = False
 
     return meteo
