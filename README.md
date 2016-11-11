@@ -20,7 +20,7 @@
 		- Suppression de l'ancienne version de la pluie et rajout de la nouvelle qui actualise l'hydratation en fonction de la météo
 		- Certaines variables concernant la météo ont été ajuster et ont été rendu modifiables dans le fichier "paramètres"
 
-	- Save : (3/3) *FAIT!*
+	- Save : (2/2) *FAIT!*
 
 		- Rajout d'une sauvegarde fonctionnel.
 		- Rajout d'un chargement de sauvegardes fonctionnels.
