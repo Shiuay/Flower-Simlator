@@ -6,6 +6,7 @@ from bin.Calendrier import *
 from bin.Fonctions import *
 from bin.Fleur import *
 from bin.Meteo import *
+from bin.Save import *
 
 from threading import *
 from tkinter import *
@@ -17,7 +18,7 @@ import time
 parametres = charger_parametres()
 
 stop = [True, False]
-continuer = continuer_test()
+continuer = continuer_test(0)
 argent = 5
 # [Jour, Mois, Années, Jour, rectangle afficheur calendrier, ticks, jour]
 date = [30, 8, 2016, "Mardi", 81, 0, 1]
@@ -49,7 +50,7 @@ def load():
         label_gold.config(text="${}".format(argent))
         tkinter.messagebox.showinfo(
             'Charger !', 'Votre partie a été bien charger !')
-        pause_resume()
+        pause_resume(0)
 
 
 def arroser_fleur():
@@ -117,14 +118,14 @@ def main():
 
     while stop[0]:
 
-        continuer = continuer_test()
+        continuer = continuer_test(0)
         load()
         if continuer == True:
             aff(date, Calendrier)
 
         while continuer:
 
-            continuer = continuer_test()
+            continuer = continuer_test(0)
 
             for fleur in fleurs:
                 if fleur is not(None):

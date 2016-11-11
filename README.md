@@ -1,13 +1,13 @@
 ﻿# Flower-Simlator
 
-- Le temps :
+	- Le temps :
 
-	- Suppression de l'affichage de l'argent en console.
-	- Rajout d'une image pour nuageux 1, nuageux 2, nuageux 3 et nuageux 5.
+		- Suppression de l'affichage de l'argent en console.
+		- Rajout d'une image pour nuageux 1, nuageux 2, nuageux 3 et nuageux 5.
 
-- Save :
+	- Save :
 
-	- Rajout d'une sauvegarde fonctionnel.
+		- Rajout d'une sauvegarde fonctionnel.
 
 
 
@@ -15,15 +15,15 @@
 
 	- Le temps : (2/4)
 
-		- Suppression de l'affichage de l'argent en console.
-		- Rajout d'une image pour nuageux 1, nuageux 2, nuageux 3 et nuageux 5.
+		* Suppression de l'affichage de l'argent en console.
+		* Rajout d'une image pour nuageux 1, nuageux 2, nuageux 3 et nuageux 5.
 		- Suppression de l'ancienne version de la pluie et rajout de la nouvelle qui actualise l'hydratation en fonction de la météo
 		- Certaines variables concernant la météo ont été ajuster et ont été rendu modifiables dans le fichier "paramètres"
 
 	- Save : (2/2) *FAIT!*
 
-		- Rajout d'une sauvegarde fonctionnel.
-		- Rajout d'un chargement de sauvegardes fonctionnels.
+		* Rajout d'une sauvegarde fonctionnel.
+		* Rajout d'un chargement de sauvegardes fonctionnels.
 
 	- L'exposition : (0/3)
 

@@ -1,78 +1,24 @@
-# -*- coding: utf-8 -*-
 
 import os
 import pickle
 import tkinter.messagebox
 
+from bin.Fonctions import pause_resume, continuer_test
 from tkinter import *
-from random import *
-from math import *
 
-continuer = [True, False]
 save_plantes = []
-
-
-def inclinaison_soleil(latitude, jour):
-
-    declinaison = 23.45 * sin(((2 * pi) / 365) * (jour + 284))
-    hauteur = latitude - declinaison
-    exposition = cos(radians(hauteur)) * 100
-    return exposition
-
-
-def alea(x):
-    """Renvoie True avec une probabilité de x%"""
-    if random() * 100 < x:
-        return True
-    else:
-        return False
-
-
-def pause_resume():
-    global continuer
-    if continuer[0] == True:
-        continuer[0] = False
-    else:
-        continuer[0] = True
-
-
-def continuer_test():
-    global continuer
-    return continuer[0]
-
-
-def charger_parametres():
-    """Extrait les paramètres d'un fichier texte dedié"""
-    with open('parametres.txt', 'r') as fichier:
-        contenu = fichier.read()
-        lignes = contenu.split()
-        parametres = dict()
-        for ligne in lignes:
-            parametre = ligne.split("=")
-            parametres[parametre[0]] = parametre[1]
-        return parametres
-
-
-def charger_save():
-    global save_plantes, continuer
-    if continuer[1] == True:
-        continuer[1] = False
-        return save_plantes[0]
 
 
 def sauvegarder_partie(**args):
 
-    global continuer
-
     def save(alert, name):
-        global continuer
         alert.destroy()
         with open("save/" + name + ".plantes", "wb") as save:
             mon_pickler = pickle.Pickler(save)
             mon_pickler.dump(args)
         tkinter.messagebox.showinfo(
             'Completed !', 'Partie sauvegarder avec succes !')
-        continuer[0] = True
+        pause_resume(0)
 
     def get(texte, alert):
         name = texte.get()
@@ -83,7 +29,7 @@ def sauvegarder_partie(**args):
             else:
                 save(alert, name)
 
-    continuer[0] = False
+    pause_resume(0)
 
     def main():
         alert = Tk()
@@ -102,14 +48,12 @@ def sauvegarder_partie(**args):
 
 def charger_partie():
 
-    global continuer
-
     def charger(name):
-        global save_plantes, continuer
+        global save_plantes
         with open("save/" + name + ".plantes", "rb") as save:
             pickler = pickle.Unpickler(save)
             save_plantes.append(pickler.load())
-            continuer[1] = True
+            pause_resume(1)
 
     def setargs():
         nom = os.listdir('Save')
@@ -125,7 +69,7 @@ def charger_partie():
         alerte.destroy()
         charger(name)
 
-    continuer[0] = False
+    pause_resume(0)
     args = setargs()
 
     if args != []:
@@ -147,3 +91,10 @@ def charger_partie():
     else:
         tkinter.messagebox.showerror(
             "Erreur !", "Désoler, il n'y a pas de sauvegarde valide dans votre fichier \"save\".")
+
+
+def charger_save():
+    global save_plantes
+    if continuer_test(1) == True:
+        pause_resume(1)
+        return save_plantes[0]

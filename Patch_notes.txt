@@ -2,16 +2,15 @@ Prochaine maj :
 
 - Le temps : (2/4)
 
-	- Suppression de l'affichage de l'argent en console.
-	- Rajout d'une image pour nuageux 1, nuageux 2, nuageux 3 et nuageux 5.
+	* Suppression de l'affichage de l'argent en console.
+	* Rajout d'une image pour nuageux 1, nuageux 2, nuageux 3 et nuageux 5.
 	- Suppression de l'ancienne version de la pluie et rajout de la nouvelle qui actualise l'hydratation en fonction de la météo
 	- Certaines variables concernant la météo ont été ajuster et ont été rendu modifiables dans le fichier "paramètres"
 
-- Save : (2/3)
+- Save : (2/2)
 
-	- Rajout d'une sauvegarde fonctionnel.
-	- Rajout d'un chargement de sauvegardes fonctionnels.
-	- rajout de la fermeture auto apres la sauvegarde.
+	* Rajout d'une sauvegarde fonctionnel.
+	* Rajout d'un chargement de sauvegardes fonctionnels.
 
 - L'exposition : (0/3)
 
