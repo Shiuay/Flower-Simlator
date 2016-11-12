@@ -29,6 +29,10 @@ def sauvegarder_partie(**args):
             else:
                 save(alert, name)
 
+    def delete(alert):
+        alert.destroy()
+        pause_resume(0)
+
     pause_resume(0)
 
     def main():
@@ -38,10 +42,13 @@ def sauvegarder_partie(**args):
                       text="Choisisez le nom de votre sauvegarde :")
         msg.pack(side=TOP, padx=5, pady=5)
         texte = Entry(alert, width=40)
-        texte.pack(side=TOP, padx=20, pady=5)
+        texte.pack(side=TOP, padx=10, pady=5)
         button = Button(alert, width=7, text="Ok",
-                        command=lambda: get(texte, alert)) # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-        button.pack(side=TOP, padx=5, pady=10)
+                        command=lambda: get(texte, alert))
+        annuler = Button(alert, width=7, text="Annuler",
+                         command=lambda: delete(alert))
+        annuler.pack(side=RIGHT, padx=40, pady=10)
+        button.pack(side=LEFT, padx=40, pady=10)
 
     main()
 
@@ -69,24 +76,33 @@ def charger_partie():
         alerte.destroy()
         charger(name)
 
+    def delete(alert):
+        alert.destroy()
+        pause_resume(0)
+
     args = setargs()
 
     if args != []:
         pause_resume(0)
         alerte = Tk()
+        alerte.title("Charger")
         alerte.resizable(width=False, height=False)
         msg = Message(alerte, width=400)
         msg.pack(side=TOP, padx=5, pady=5)
 
-        liste = Listbox(alerte, exportselection=0, selectmode='single')
+        liste = Listbox(alerte, exportselection=0, width=40, selectmode='single')
         liste.pack(padx=5, pady=5)
 
         for i in args:
-            liste.insert('end', i) # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+            liste.insert('end', i)
 
         button = Button(alerte, text="Ok", width=7,
                         command=lambda: get(alerte))
-        button.pack(side=TOP, padx=5, pady=10)
+        annuler = Button(alerte, width=7, text="Annuler",
+                         command=lambda: delete(alerte))
+        annuler.pack(side=RIGHT, padx=35, pady=10)
+        button.pack(side=LEFT, padx=35, pady=10)
 
     else:
         tkinter.messagebox.showerror(
