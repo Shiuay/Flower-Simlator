@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from bin.Fonctions import *
+from bin.fonctions import *
 
 
 class Fleur:

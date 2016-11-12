@@ -2,11 +2,12 @@
 
 # Import ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from bin.Calendrier import *
-from bin.Fonctions import *
+from bin.calendrier import *
+from bin.fonctions import *
+from bin.Interface import *
 from bin.Fleur import *
 from bin.Meteo import *
-from bin.Save import *
+from bin.save import *
 
 from threading import *
 from tkinter import *
@@ -19,328 +20,110 @@ parametres = charger_parametres()
 
 stop = True
 continuer = continuer_test(0)
-argent = 5
 # [Jour, Mois, Années, Jour, rectangle afficheur calendrier, ticks, jour]
-date = [30, 8, 2016, "Mardi", 81, 0, 1]
-Meteo = ["Dégagé", 1]
 
-fleurs = list()
-for i in range(12):
-    fleurs.append(None)
+Meteo = ["Dégagé", 1]
 
 
 def load():
-    global date, Meteo, argent, fleurs
+    global interface, main_fenetre, Meteo
     save = charger_save()
     if save is None:
         pass
     else:
-        date = save["date"]
+        interface.date = save["date"]
+        interface.argent = save["fric"]
+        main_fenetre.fleurs = save["fleur"]
         Meteo = save["meteo"]
-        argent = save["fric"]
-        fleurs = save["fleur"]
 
         b = 0
-        for i in fleurs:
+        for i in main_fenetre.fleurs:
             if i is not None:
-                boutons_fleur[b].config(image=photo_fleur)
+                main_fenetre.boutons_fleur[b].config(
+                    image=main_fenetre.photo["fleur"])
             b += 1
         del b
 
-        label_gold.config(text="${}".format(argent))
+        main_fenetre.label_gold.config(text="${}".format(interface.argent))
         tkinter.messagebox.showinfo(
             'Charger !', 'Votre partie a été bien charger !')
         pause_resume(0)
 
 
-def arroser_fleur():
-
-    try:
-        fleur = fleurs[int(choix_fleur.get())]
-    except ValueError:
-        return None
-
-    if fleur is not(None):
-        fleur.eau(100)
-
-
-def acheter_fleur():
-
-    global argent
-
-    try:
-        fleur = fleurs[int(choix_fleur.get())]
-    except ValueError:
-        return None
-
-    if fleur is None and argent >= 5:
-        for i in range(len(boutons_fleur)):
-            if choix_fleur.get() == str(i):
-                boutons_fleur[i].config(image=photo_fleur)
-                fleurs[i] = Fleur()
-                argent -= 5
-                label_gold.config(text="${}".format(argent))
-
-
-def jeter_fleur():
-    for i in range(len(boutons_fleur)):
-        if choix_fleur.get() == str(i):
-            boutons_fleur[i].config(image=photo_pot)
-            fleurs[i] = None
-
-
-def vendre_fleur():
-
-    global argent
-
-    try:
-        fleur = fleurs[int(choix_fleur.get())]
-    except ValueError:
-        return None
-
-    if fleur is not(None):
-        if fleur.croissance == 1000:
-            argent += round(fleur.vitalite, -2) / 100
-            jeter_fleur()
-            label_gold.config(text="${}".format(argent))
-
-
-def quit():
-    global stop
-    stop = False
-    time.sleep(1)
-    fenetre.quit()
-
-
 def main():
 
-    global date, Meteo, continuer, stop
+    global interface, Meteo, continuer, stop
 
     while stop:
 
         continuer = continuer_test(0)
         load()
         if continuer:
-            aff(date, Calendrier)
+            main_fenetre.afficheur_calendrier(interface)
 
         while continuer:
 
             continuer = continuer_test(0)
 
-            for fleur in fleurs:
+            for fleur in main_fenetre.fleurs:
                 if fleur is not(None):
                     fleur.tic()
 
-            date[5] += 1
-            if date[5] == int(parametres["VitesseJour"]):
-                date = jour(date, Calendrier)
+            interface.date[5] += 1
+            if interface.date[5] == int(parametres["VitesseJour"]):
+                interface.date = main_fenetre.jour(interface)
                 Meteo = test_temps(Meteo)
 
                 if degage(Meteo):
-                    label_meteo.config(image=photo_soleil)
+                    main_fenetre.label_meteo.config(
+                        image=main_fenetre.photo["soleil"])
                 elif nuageux1(Meteo):
-                    label_meteo.config(image=photo_nuage1)
+                    main_fenetre.label_meteo.config(
+                        image=main_fenetre.photo["nuage_1"])
                 elif nuageux2(Meteo):
-                    label_meteo.config(image=photo_nuage2)
+                    main_fenetre.label_meteo.config(
+                        image=main_fenetre.photo["nuage_2"])
                 elif nuageux3(Meteo):
-                    label_meteo.config(image=photo_nuage3)
+                    main_fenetre.label_meteo.config(
+                        image=main_fenetre.photo["nuage_3"])
                 elif nuageux4(Meteo):
-                    label_meteo.config(image=photo_nuage4)
+                    main_fenetre.label_meteo.config(
+                        image=main_fenetre.photo["nuage_4"])
                 elif nuageux5(Meteo):
-                    label_meteo.config(image=photo_nuage5)
+                    main_fenetre.label_meteo.config(
+                        image=main_fenetre.photo["nuage_5"])
                 elif pluvieux(Meteo):
-                    label_meteo.config(image=photo_pluie)
+                    main_fenetre.label_meteo.config(
+                        image=main_fenetre.photo["pluie"])
 
-                if date[0] == 1:
-                    aff(date, Calendrier)
-                date[5] = 0
+                if interface.date[0] == 1:
+                    main_fenetre.afficheur_calendrier(interface)
+                interface.date[5] = 0
 
-            if choix_fleur.get() == "":
-                label_stats.configure(
-                    label_stats, text="\nCroissance : {}\n\nHydratation : {}\n\nVitalité : {}".format(0, 0, 0))
+            if main_fenetre.choix_fleur.get() == "":
+                main_fenetre.label_stats.configure(
+                    main_fenetre.label_stats, text="\nCroissance : {}\n\nHydratation : {}\n\nVitalité : {}".format(0, 0, 0))
 
-            elif fleurs[int(choix_fleur.get())] is None:
-                label_stats.configure(
-                    label_stats, text="\nCroissance : {}\n\nHydratation : {}\n\nVitalité : {}".format(0, 0, 0))
+            elif main_fenetre.fleurs[int(main_fenetre.choix_fleur.get())] is None:
+                main_fenetre.label_stats.configure(
+                    main_fenetre.label_stats, text="\nCroissance : {}\n\nHydratation : {}\n\nVitalité : {}".format(0, 0, 0))
 
             else:
-                choix = int(choix_fleur.get())
-                label_stats.configure(label_stats, text="\nCroissance : {}\n\nHydratation : {}\n\nVitalité : {}".format(
-                    fleurs[choix].croissance, fleurs[choix].hydratation, fleurs[choix].vitalite))
+                choix = int(main_fenetre.choix_fleur.get())
+                main_fenetre.label_stats.configure(main_fenetre.label_stats, text="\nCroissance : {}\n\nHydratation : {}\n\nVitalité : {}".format(
+                    main_fenetre.fleurs[choix].croissance, main_fenetre.fleurs[choix].hydratation, main_fenetre.fleurs[choix].vitalite))
             time.sleep(eval(parametres["VitesseTic"]))
 
 programme = Thread(target=main)
 
 # Fenêtre ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-fenetre = Tk()
+interface = Interface()
 
-fenetre.title("Enculer Grosméo")
-
-fenetre.resizable(width=False, height=False)
-
-# Alerte temporaire ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-def alert():
-    tkinter.messagebox.showinfo("CE BOUTON NE MARCHE PAS ENCORE !",
-                                "Vous venez de cliquer sur un bouton qui n'a pas encore été assigné.")
-
-    # Menubar ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-menubar = Menu(fenetre)
-
-menu1 = Menu(menubar, tearoff=0)
-menubar.add_cascade(label="Fichier", menu=menu1)
-menu1.add_command(label="Charger", command=charger_partie)
-menu1.add_command(label="Sauvegarder", command=lambda: sauvegarder_partie(
-    date=date, meteo=Meteo, fric=argent, fleur=fleurs))
-menu1.add_separator()
-menu1.add_command(label="Quitter", command=quit)
-
-menu2 = Menu(menubar, tearoff=0)
-menubar.add_cascade(label="Shop", menu=menu2)
-menu2.add_command(label="Eau", command=alert)
-menu2.add_command(label="Engrais", command=alert)
-menu2.add_command(label="Plantes", command=alert)
-menu2.add_command(label="Radio", command=alert)
-
-menu3 = Menu(menubar, tearoff=0)
-menubar.add_cascade(label="Aide", menu=menu3)
-menu3.add_command(label="Accès fichier Python", command=alert)
-menu3.add_command(label="A propos", command=alert)
-
-fenetre.config(menu=menubar)
-
-# Canvas & Image ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-canvas = Canvas(fenetre, width=700, height=500, bg='#F0F0F0')
-canvas.pack(side=LEFT, anchor=SW, padx=5, pady=5)
-
-photo_fleur = PhotoImage(file="image\\fleur.png")
-photo_pot = PhotoImage(file="image\\fleur_pot.png")
-photo_soleil = PhotoImage(file="image\\soleil.png")
-photo_nuage1 = PhotoImage(file="image\\nuage 1.png")
-photo_nuage2 = PhotoImage(file="image\\nuage 2.png")
-photo_nuage3 = PhotoImage(file="image\\nuage 3.png")
-photo_nuage4 = PhotoImage(file="image\\nuage 4.png")
-photo_nuage5 = PhotoImage(file="image\\nuage 5.png")
-photo_pluie = PhotoImage(file="image\\pluie.png")
-
-choix_fleur = StringVar()
-# Création des boutons des fleurs
-
-boutons_fleur = list()
-for i in range(12):
-    boutons_fleur.append(Radiobutton(
-        canvas, image=photo_pot, bg='#F0F0F0', variable=choix_fleur, value=i))
-
-# Placement des boutons des fleurs
-y = 10
-b = 0
-for t in range(4):
-    x = 20
-    for i in range(3):
-        canvas.create_window(y, x, anchor=NW, window=boutons_fleur[b])
-        b += 1
-        x += 165
-    if y == 10:
-        y += 165
-    elif y == 175:
-        y += 175
-    else:
-        y += 170
-
-canvas.pack(side=LEFT, anchor=SW, padx=5, pady=5)
-
-# Labels ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-label_gold = Label(fenetre, anchor=NW, width=40, height=5, text="${}".format(
-    argent), relief=FLAT, fg='black', command=None, font=("Helvetica", 16))
-label_gold.place(x=10, y=10)
-
-label_meteo = Label(fenetre, bg='#F0F0F0', image=photo_soleil)
-label_meteo.place(x=0, y=40)
-
-label_stats = Label(fenetre, width=20, height=5, text="\nCroissance : {}\n\nHydratation : {}\n\nVitalité : {}".format(
-    0, 1000, 1000), relief=FLAT, fg='black', command=None)
-label_stats.pack(side=TOP, padx=5, pady=5)
-label_stats.config(fg='Black', bd=12)
-
-bouton_arroser = Button(fenetre, width=25, height=5,
-                        text="Arroser la fleur", command=arroser_fleur)
-bouton_acheter = Button(fenetre, width=25, height=5,
-                        text="Acheter une fleur", command=acheter_fleur)
-bouton_vendre = Button(fenetre, width=25, height=5,
-                       text="Vendre la fleur", command=vendre_fleur)
-bouton_jeter = Button(fenetre, width=25, height=5,
-                      text="Jeter la fleur", command=jeter_fleur)
-
-bouton_jeter.pack(side=BOTTOM, padx=5, pady=5)
-bouton_vendre.pack(side=BOTTOM, padx=5, pady=5)
-bouton_acheter.pack(side=BOTTOM, padx=5, pady=5)
-bouton_arroser.pack(side=BOTTOM, padx=5, pady=5)
-
-# Calendrier ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Calendrier = Canvas(fenetre, width=244, height=284, bg='#F0F0F0')
-Calendrier.pack(side=BOTTOM, padx=5, pady=5)
-
-Calendrier.create_text(122, 20, tags="année")
-Calendrier.create_text(122, 50, tags="mois")
-
-# Affichage des jours (lundi mardi mercredi...) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-journee = ("Lundi", "Mardi", "Mercredi", "Jeudi",
-           "Vendredi", "Samedi", "Dimanche")
-a = 0
-x = 20
-for i in range(7):
-    Calendrier.create_text(x, 80, text=journee[a][0])
-    a += 1
-    x += 35
-
-del journee
-
-# Affichage du numero du jour (le trois octobre: le 3.) ~~~~~~~~~~~~~~~~~~
-
-a = 1
-x = 20
-y = 110
-for i in range(6):
-    for u in range(7):
-        # premier tag a partir de 10. me demande pas. python powa
-        Calendrier.create_text(x, y, tags=a)
-        a += 1
-        x += 35
-    y += 30
-    x = 20
-
-x0 = 10
-x1 = 30
-y0 = 100
-y1 = 120
-for i in range(6):
-    for u in range(7):
-        Calendrier.create_rectangle(
-            x0, y0, x1, y1, tags=a, fill='', outline='red', width=0)
-        x0 += 35
-        x1 += 35
-        a += 1
-    y0 += 30
-    y1 += 30
-    x0 = 10
-    x1 = 30
-
-Calendrier.itemconfig(date[4], width=2)
-
-aff(date, Calendrier)
-
-# Calendrier.itemconfig("10", text="42", fill='black') # pour les texte. tags : [10, 51]
-# Calendrier.itemconfig("52", width=1) # pour les cadres. tags : [52, 93]
+main_fenetre = Main_Fenetre(interface, Meteo)
 
 # Mainloop ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 programme.start()
-fenetre.mainloop()
-fenetre.destroy()
+interface.fenetre.mainloop()
+interface.fenetre.destroy()
