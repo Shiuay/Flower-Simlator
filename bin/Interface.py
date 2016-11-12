@@ -261,12 +261,8 @@ class Main_Fenetre():
         jour = ("Lundi", "Mardi", "Mercredi", "Jeudi",
                 "Vendredi", "Samedi", "Dimanche")
 
-        mois = (("Janvier", 31), ("Février", 28), ("Mars", 31), ("Avril", 30), ("Mai", 31), ("Juin", 30),
-                ("Juillet", 31), ("Août", 31), ("Septembre", 30), ("Octobre", 31), ("Novembre", 30), ("Décembre", 31))
-
         # affichage des jour
 
-        ad = 0
         interface.date[0] += 1
         interface.date[6] += 1
         if interface.date[6] == 7:

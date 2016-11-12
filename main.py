@@ -2,7 +2,6 @@
 
 # Import ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from bin.calendrier import *
 from bin.fonctions import *
 from bin.Interface import *
 from bin.Fleur import *

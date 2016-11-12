@@ -40,7 +40,7 @@ def sauvegarder_partie(**args):
         texte = Entry(alert, width=40)
         texte.pack(side=TOP, padx=20, pady=5)
         button = Button(alert, width=7, text="Ok",
-                        command=lambda: get(texte, alert))
+                        command=lambda: get(texte, alert)) # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
         button.pack(side=TOP, padx=5, pady=10)
 
     main()
@@ -69,10 +69,10 @@ def charger_partie():
         alerte.destroy()
         charger(name)
 
-    pause_resume(0)
     args = setargs()
 
     if args != []:
+        pause_resume(0)
         alerte = Tk()
         alerte.resizable(width=False, height=False)
         msg = Message(alerte, width=400)
@@ -82,7 +82,7 @@ def charger_partie():
         liste.pack(padx=5, pady=5)
 
         for i in args:
-            liste.insert('end', i)
+            liste.insert('end', i) # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
         button = Button(alerte, text="Ok", width=7,
                         command=lambda: get(alerte))
