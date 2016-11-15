@@ -25,11 +25,13 @@ class Interface():
 
 class Main_Fenetre():
 
-    def __init__(self, interface, Meteo):
+    def __init__(self, interface):
 
         self.fleurs = list()
         for i in range(12):
             self.fleurs.append(None)
+
+        self.Meteo = ["Dégagé", 1]
 
         # Menu ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -41,7 +43,7 @@ class Main_Fenetre():
         interface.menubar.add_cascade(label="Fichier", menu=interface.menu1)
         interface.menu1.add_command(label="Charger", command=charger_partie)
         interface.menu1.add_command(label="Sauvegarder", command=lambda: sauvegarder_partie(
-            date=interface.date, meteo=Meteo, fric=interface.argent, fleur=self.fleurs))
+            date=interface.date, meteo=self.Meteo, fric=interface.argent, fleur=self.fleurs))
         interface.menu1.add_separator()
         interface.menu1.add_command(
             label="Quitter", command=interface.fenetre.quit)

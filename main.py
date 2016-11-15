@@ -21,11 +21,9 @@ stop = True
 continuer = continuer_test(0)
 # [Jour, Mois, Années, Jour, rectangle afficheur calendrier, ticks, jour]
 
-Meteo = ["Dégagé", 1]
-
 
 def load():
-    global interface, main_fenetre, Meteo
+    global interface, main_fenetre
     save = charger_save()
     if save is None:
         pass
@@ -33,7 +31,7 @@ def load():
         interface.date = save["date"]
         interface.argent = save["fric"]
         main_fenetre.fleurs = save["fleur"]
-        Meteo = save["meteo"]
+        main_fenetre.Meteo = save["meteo"]
 
         b = 0
         for i in main_fenetre.fleurs:
@@ -51,7 +49,7 @@ def load():
 
 def main():
 
-    global interface, Meteo, continuer, stop
+    global interface, continuer, stop
 
     while stop:
 
@@ -71,27 +69,27 @@ def main():
             interface.date[5] += 1
             if interface.date[5] == int(parametres["VitesseJour"]):
                 interface.date = main_fenetre.jour(interface)
-                Meteo = test_temps(Meteo)
+                main_fenetre.Meteo = test_temps(main_fenetre.Meteo)
 
-                if degage(Meteo):
+                if degage(main_fenetre.Meteo):
                     main_fenetre.label_meteo.config(
                         image=main_fenetre.photo["soleil"])
-                elif nuageux1(Meteo):
+                elif nuageux1(main_fenetre.Meteo):
                     main_fenetre.label_meteo.config(
                         image=main_fenetre.photo["nuage_1"])
-                elif nuageux2(Meteo):
+                elif nuageux2(main_fenetre.Meteo):
                     main_fenetre.label_meteo.config(
                         image=main_fenetre.photo["nuage_2"])
-                elif nuageux3(Meteo):
+                elif nuageux3(main_fenetre.Meteo):
                     main_fenetre.label_meteo.config(
                         image=main_fenetre.photo["nuage_3"])
-                elif nuageux4(Meteo):
+                elif nuageux4(main_fenetre.Meteo):
                     main_fenetre.label_meteo.config(
                         image=main_fenetre.photo["nuage_4"])
-                elif nuageux5(Meteo):
+                elif nuageux5(main_fenetre.Meteo):
                     main_fenetre.label_meteo.config(
                         image=main_fenetre.photo["nuage_5"])
-                elif pluvieux(Meteo):
+                elif pluvieux(main_fenetre.Meteo):
                     main_fenetre.label_meteo.config(
                         image=main_fenetre.photo["pluie"])
 
@@ -119,7 +117,7 @@ programme = Thread(target=main)
 
 interface = Interface()
 
-main_fenetre = Main_Fenetre(interface, Meteo)
+main_fenetre = Main_Fenetre(interface)
 
 # Mainloop ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
